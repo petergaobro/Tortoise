@@ -1,0 +1,690 @@
+<!--Peng gao(s3457558) Liu Changyuan(s3511129)-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Web 3D Assignment1</title>
+    <link rel="stylesheet" type="text/css" href="../x3dom/x3dom.css"/>
+    <script type="text/javascript" src="../x3dom/x3dom.js">
+    </script>
+    <style type="text/css">
+      body{
+        background-color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Web 3D Assignment1 Peng Gao(s3457558) Liu Changyuan(s3511129)</h1>
+    <X3D xmlns="http://www.web3d.org/specifications/x3d-namespace" width="500px" height="500px">
+      <Scene>
+      
+        <!--create the 3D axis-->
+        <Shape DEF = 'axis'>
+          <IndexedLineSet  
+           coordIndex=" 0 1 -1 0 2 -1 0 3 -1"
+           colorPerVertex="true"
+           colorIndex="0 1 -1 2 3 -1 4 5 -1">
+          <Coordinate point="0 0 0, 1 0 0, 0 1 0, 0 0 1"/>
+          <Color color="1 0 0, 0 0 1, 1 0 0, 0 1 0, 0 0 1, 0 0 1"/>
+          </IndexedLineSet>
+        </Shape>
+
+        <!--water-->
+        <Shape>
+          <IndexedFaceSet solid = 'false' coordIndex='0 1 2 3 -1'>
+            <Coordinate point=' -3  0  3
+                                 3  0  3
+                                 3  0 -3
+                                -3  0 -3'/>
+          </IndexedFaceSet>
+          <Appearance>
+            <Material transparency = '0.5' diffuseColor='0 1 1'/>
+          </Appearance>
+        </Shape>
+
+
+        <!--Fish tank-->
+        <Shape>
+          <IndexedFaceSet solid = 'false'
+            coordIndex='0 1 2 3 -1
+                        0 3 7 4 -1
+                        1 2 6 5 -1
+                        0 1 5 4 -1
+                        3 2 6 7 -1'>
+
+            <Coordinate point=' -3  -2   3
+                                 3  -2   3
+                                 3  -2  -3
+                                -3  -2  -3
+                                -3   2   3
+                                 3   2   3
+                                 3   2  -3
+                                -3   2  -3'/>
+          </IndexedFaceSet>
+          <Appearance>
+            <Material transparency = '0.5' diffuseColor='0 0.35 0.35'/>
+          </Appearance>
+        </Shape>
+
+        <!--Turtle Body-->
+        <Shape DEF = 'Body'>
+
+        <!--make texture-->
+          <Appearance> 
+            <ImageTexture url = './shell-tex.png'/>
+          </Appearance>
+          <!--create the Dodecahedron-->
+          <IndexedFaceSet  coordIndex='0 6 5 -1
+                                       1 6 0 -1
+                                       2 6 1 -1
+                                       3 6 2 -1
+                                       4 6 3 -1
+                                       5 6 4 -1'
+
+                           texCoordIndex= '0 6 5 -1
+                                           1 6 0 -1
+                                           2 6 1 -1
+                                           3 6 2 -1
+                                           4 6 3 -1
+                                           5 6 4 -1'>
+
+            <Coordinate point='-0.5    0    -0.866 
+                               -1      0     0
+                               -0.5    0     0.866
+                                0.5    0     0.866
+                                1      0     0
+                                0.5    0    -0.866
+                                0      0.5   0'/>
+
+            <!--texture coordinate-->
+            <TextureCoordinate point='0.25   0.933, 
+                                      0      0.5, 
+                                      0.25   0.067, 
+                                      0.75   0.067,  
+                                      1      0.5, 
+                                      0.75   0.933, 
+                                      0.5    0.5'/>
+          </IndexedFaceSet>
+        </Shape>
+
+        <!--rotate the top body around X axis-->
+        <Transform rotation = '1 0 0 3.14'>
+          <Shape USE='Body'/>   
+
+          <!--TouchSensor which senses when the user clicks on turtle body-->
+          <TouchSensor DEF="StartStop"/>  
+        </Transform>
+
+
+        <!--Neck(head joint)-->
+        <Transform DEF = 'Neck' translation = '0 0 0.866'>
+          <Transform  rotation = '0 1 0 -1.57'>
+            <Transform  rotation = '0 0 1 0.523'>
+
+              <Shape USE = 'axis'/>
+              
+              <!--Head-->
+              <Transform DEF = 'Head' translation = '0.5 0 0'>
+                <Transform scale = '0.5 0.3 0.3'>
+                  
+                  <Shape USE = 'axis'/>
+                  
+                  <!--Orginal Octahedron Model-->
+                  <Shape DEF = 'Octa'>
+                    <Appearance>
+                      <Material diffuseColor = '0.6 0.25 0'/>
+                    </Appearance>
+                    <IndexedFaceSet solid = 'false' coordIndex = '0 1 2 -1
+                                                                  0 2 3 -1
+                                                                  0 3 4 -1
+                                                                  0 4 1 -1
+                                                                  5 1 2 -1
+                                                                  5 2 3 -1
+                                                                  5 3 4 -1
+                                                                  5 4 1 -1'>
+                      <Coordinate point = '0  1  0
+                                          -1  0  0
+                                           0  0  1
+                                           1  0  0
+                                           0  0 -1
+                                           0 -1  0'/>
+                    </IndexedFaceSet>
+                  </Shape>
+
+                  <!--Eyes-->
+                  <!--LEye-->
+                  <Transform translation = '0.5 0.1 0.5'>
+                    <Transform scale = '0.15 0.3 0.3'>
+                      <Shape DEF = 'eyes'>
+                        <Appearance>
+                          <Material diffuseColor = '0 0 0'/>
+                        </Appearance>
+                        <Sphere>
+                        </Sphere>
+                      </Shape>
+                    </Transform>
+                  </Transform>
+
+                  <!--REye-->
+                  <Transform translation = '0.5 0.1 -0.5'>
+                    <Transform scale = '0.15 0.3 0.3'>
+                      <Shape USE = 'eyes'/>
+                    </Transform>
+                  </Transform>
+
+                </Transform>
+              </Transform> <!--end of head-->
+
+            </Transform>
+          </Transform>
+        </Transform><!--end of Neck(head joint)-->
+    
+
+<!--Tail-->
+        <!--Turtle Tail (joint)-->
+        <Transform DEF = 'TailJoint' translation = '0 0 -0.866'>
+
+          <Shape USE = 'axis'/>
+          
+          <!--The Tail-->
+          <Shape DEF = 'Tail'>
+            <Appearance> 
+              <Material diffuseColor='0.6 0.25 0'/> 
+            </Appearance>
+
+            <IndexedFaceSet solid = 'false' coordIndex='0 1 3 -1
+                                                        1 2 3 -1
+                                                        2 0 3 -1'>
+             
+            <Coordinate point='-0.25  0     0,
+                                0.25  0     0,
+                                0     0    -0.5,
+                                0     0.1  -0.15'/>
+            </IndexedFaceSet>
+          </Shape>
+
+          <!--Rotate the Tail-->
+          <Transform rotation = '0 0 1 3.14'>
+            <Shape USE='Tail'/>
+          </Transform>
+          
+        </Transform><!--end of Tail joint-->
+
+        <!--Head and Tail animation-->
+        <TimeSensor DEF = "HeadTailTimer" cycleInterval = '4' loop = "true" enabled = "false"/>
+          <OrientationInterpolator
+            DEF = "HeadTailInterpolator"
+            key = '0 0.25 0.5 0.75 1'
+
+            keyValue = '0 0 0 0
+                        1 0 0 -0.523
+                        0 0 0 0
+                        1 0 0 0.523
+                        0 0 0 0'/>
+        <ROUTE
+          fromNode = "HeadTailTimer" 
+          fromField = "fraction_changed" 
+          toNode = "HeadTailInterpolator"  
+          toField = "set_fraction"
+        />
+        <!--Neck Joint-->
+        <ROUTE 
+          fromNode = "HeadTailInterpolator"  
+          fromField = "value_changed" 
+          toNode = "Neck"  
+          toField = "set_rotation" 
+        />
+        <!--TailJoint-->
+        <ROUTE 
+          fromNode = "HeadTailInterpolator"  
+          fromField = "value_changed" 
+          toNode = "TailJoint"  
+          toField = "set_rotation" 
+        />
+        <!--TouchSensor-->
+        <ROUTE                                                                  
+          fromNode = "StartStop"                                                 
+          fromField = "isActive"                                               
+          toNode = "HeadTailTimer"                                                
+          toField = "enabled"                                                  
+        />
+
+
+<!--front right leg-->
+        <!--FRHip (first front right leg joint)-->
+        <Transform DEF = 'FRHip' translation = '-0.75 0 0.433'>
+          <Transform rotation = '0 1 0 3.665'>
+            
+            <Shape USE = 'axis'/>
+            
+            <!--FRUpLeg (first front right leg)-->
+            <Transform DEF = 'FRUpLeg' translation = '0.5 0 0'>
+              <Transform scale = '0.5 0.3 0.3'>
+                <Shape USE = 'Octa'/>
+              </Transform>
+            </Transform>  
+
+            <!--FRKnee (second front right leg joint)-->
+            <Transform DEF = 'FRKnee' translation = '1 0 0'>
+              <Transform rotation = '0 0 1 -0.785'>  
+
+                <Shape USE = 'axis'/>
+
+                <!--FRLowLeg (second front right leg)-->
+                <Transform DEF = 'FRLowLeg' translation = '0.5 0 0'>
+                  <Transform scale = '0.5 0.3 0.3'>
+                    <Shape USE = 'Octa'/>
+                  </Transform>
+                </Transform>
+
+                <!--FRAnkle (third front right leg joint)-->
+                <Transform DEF = 'FRAnkle' translation = '1 0 0'>
+                  <Transform rotation = '0 0 1 -0.785'>  
+
+                    <Shape USE = 'axis'/>
+
+                    <!--FRFoot (third front right leg)-->
+                    <Transform DEF = 'FRFoot' translation = '0.5 0 0'>
+                      <Transform scale = '0.5 0.3 0.3'>
+                        <Shape USE = 'Octa'/>
+                      </Transform>
+                    </Transform>
+
+                  </Transform>
+                </Transform><!--end of FRAnkle (third leg joint)-->
+
+              </Transform>
+            </Transform><!--end of FRKnee (second leg joint)-->
+                       
+          </Transform>
+        </Transform><!--end of FRHip (first leg joint)-->
+
+
+<!--back right leg-->
+        <!--RRHip (first back right leg joint)-->
+        <Transform DEF = 'RRHip' translation = '-0.75 0 -0.433'>
+          <Transform rotation = '0 1 0 2.617'>
+            
+            <Shape USE = 'axis'/>
+            
+            <!--RRUpLeg (first back right leg)-->
+            <Transform DEF = 'RRUpLeg' translation = '0.5 0 0'>
+              <Transform scale = '0.5 0.3 0.3'>
+                <Shape USE = 'Octa'/>
+              </Transform>
+            </Transform>
+
+            <!--RRKnee (second back right leg joint)-->
+            <Transform DEF = 'RRKnee' translation = '1 0 0'>
+              <Transform rotation = '0 0 1 -0.785'>
+
+                <Shape USE = 'axis'/>
+
+                <!--RRLowLeg (second back right leg)-->
+                <Transform DEF = 'RRLowLeg' translation = '0.5 0 0'>
+                  <Transform scale = '0.5 0.3 0.3'>
+                    <Shape USE = 'Octa'/>
+                  </Transform>
+                </Transform>
+                
+                <!--RRAnkle (third back right leg joint)-->
+                <Transform DEF = 'RRAnkle' translation = '1 0 0'>
+                  <Transform rotation = '0 0 1 -0.785'>
+
+                    <Shape USE = 'axis'/>
+
+                    <!--RRFoot (third back right leg)-->
+                    <Transform DEF = 'RRFoot' translation = '0.5 0 0'>
+                      <Transform scale = '0.5 0.3 0.3'>
+                        <Shape USE = 'Octa'/>
+                      </Transform>
+                    </Transform>
+
+                  </Transform>
+                </Transform><!--end of RRAnkle (third leg joint)-->
+
+              </Transform>
+            </Transform><!--end of RRKnee (second leg joint)-->
+
+          </Transform>
+        </Transform><!--end of RRHip (first leg joint)-->
+
+
+        <!--FRHip and RRHip animation-->
+        <TimeSensor DEF = "RightHipTimer" cycleInterval = '4' loop = "true" enabled = "false"/>
+          <OrientationInterpolator
+            DEF = "RightHipInterpolator"
+            key = '0 0.25 0.5 0.75 1'
+
+            keyValue = '0 0 0 0
+                        0 1 0 -0.523
+                        0 0 0 0
+                        0 1 0 0.523
+                        0 0 0 0'/>
+        <ROUTE
+          fromNode = "RightHipTimer" 
+          fromField = "fraction_changed" 
+          toNode = "RightHipInterpolator"  
+          toField = "set_fraction"
+        />
+        <!--FRHip-->
+        <ROUTE 
+          fromNode = "RightHipInterpolator"  
+          fromField = "value_changed" 
+          toNode = "FRHip"  
+          toField = "set_rotation" 
+        />
+        <!--RRHip-->
+        <ROUTE 
+          fromNode = "RightHipInterpolator"  
+          fromField = "value_changed" 
+          toNode = "RRHip"  
+          toField = "set_rotation" 
+        />
+        <!--TouchSensor-->
+        <ROUTE                                                                  
+          fromNode = "StartStop"                                                 
+          fromField = "isActive"                                               
+          toNode = "RightHipTimer"                                                
+          toField = "enabled"                                                  
+        />
+
+        <!--FRKnee and RRKnee animation-->
+        <TimeSensor DEF = "RightKneeTimer" cycleInterval = '4' loop = "true" enabled = "false"/>
+          <OrientationInterpolator
+            DEF = "RightKneeInterpolator"
+            key = '0 0.25 0.5 0.75 1'
+
+            keyValue = '0 0 0 0
+                        1 0 0 -0.5
+                        0 0 0 0
+                        1 0 0 0.5
+                        0 0 0 0'/>
+        <ROUTE
+          fromNode = "RightKneeTimer" 
+          fromField = "fraction_changed" 
+          toNode = "RightKneeInterpolator"  
+          toField = "set_fraction"
+        />
+        <!--FRKnee-->
+        <ROUTE 
+          fromNode = "RightKneeInterpolator"  
+          fromField = "value_changed" 
+          toNode = "FRKnee"  
+          toField = "set_rotation" 
+        />
+        <!--RRKnee-->
+        <ROUTE 
+          fromNode = "RightKneeInterpolator"  
+          fromField = "value_changed" 
+          toNode = "RRKnee"  
+          toField = "set_rotation" 
+        />
+        <!--TouchSensor-->
+        <ROUTE                                                                  
+          fromNode = "StartStop"                                                 
+          fromField = "isActive"                                               
+          toNode = "RightKneeTimer"                                                
+          toField = "enabled"                                                  
+        />
+
+        <!--FRAnkle and RRAnkle animation-->
+        <TimeSensor DEF = "RightAnkleTimer" cycleInterval = '4' loop = "true" enabled = "false"/>
+          <OrientationInterpolator
+            DEF = "RightAnkleInterpolator"
+            key = '0 0.25 0.5 0.75 1'
+
+            keyValue = '0 0 0 0
+                        1 0 0 -1.047
+                        0 0 0 0
+                        1 0 0 1.047
+                        0 0 0 0'/>
+        <ROUTE
+          fromNode = "RightAnkleTimer" 
+          fromField = "fraction_changed" 
+          toNode = "RightAnkleInterpolator"  
+          toField = "set_fraction"
+        />
+        <!--FRAnkle-->
+        <ROUTE 
+          fromNode = "RightAnkleInterpolator"  
+          fromField = "value_changed" 
+          toNode = "FRAnkle"  
+          toField = "set_rotation" 
+        />
+        <!--RRAnkle-->
+        <ROUTE 
+          fromNode = "RightAnkleInterpolator"  
+          fromField = "value_changed" 
+          toNode = "RRAnkle"  
+          toField = "set_rotation" 
+        />
+        <!--TouchSensor-->
+        <ROUTE                                                                  
+          fromNode = "StartStop"                                                 
+          fromField = "isActive"                                               
+          toNode = "RightAnkleTimer"                                                
+          toField = "enabled"                                                  
+        />   
+
+
+<!--front left leg-->
+        <!--FLHip (first front left leg joint)-->
+        <Transform DEF = 'FLHip' translation = '0.75 0 0.433'>
+          <Transform rotation = '0 1 0 -0.523'>
+            
+            <Shape USE = 'axis'/>
+
+            <!--FLUpLeg (first front left leg)-->
+            <Transform DEF = 'FLUpLeg' translation = '0.5 0 0'>
+              <Transform scale = '0.5 0.3 0.3'>
+                <Shape USE = 'Octa'/>
+              </Transform>
+            </Transform>
+
+            <!--FLKnee (second front left leg joint)-->
+            <Transform DEF = 'FLKnee' translation = '1 0 0'>
+              <Transform rotation = '0 0 1 -0.785'>
+
+                <Shape USE = 'axis'/>
+
+                <!--FLLowLeg (second front left leg)-->
+                <Transform DEF = 'FLLowLeg' translation = '0.5 0 0'>
+                  <Transform scale = '0.5 0.3 0.3'>
+                    <Shape USE = 'Octa'/>
+                  </Transform>
+                </Transform>
+
+                <!--FLAnkle (third front left leg joint)-->
+                <Transform DEF = 'FLAnkle' translation = '1 0 0'>
+                  <Transform rotation = '0 0 1 -0.785'>
+
+                    <Shape USE = 'axis'/>
+
+                    <!--FLFoot (third front left leg)-->
+                    <Transform DEF = 'FLFoot' translation = '0.5 0 0'>
+                      <Transform scale = '0.5 0.3 0.3'>
+                        <Shape USE = 'Octa'/>
+                      </Transform>
+                    </Transform>
+
+                  </Transform>
+               </Transform><!--end of FLAnkle (third leg joint)-->
+
+              </Transform>
+            </Transform><!--end of FLKnee (second leg joint)-->
+
+          </Transform>
+        </Transform><!--end of FLHip (first leg joint)-->
+      
+
+<!--back left leg-->
+        <!--RLHip (first back right leg joint)-->
+        <Transform DEF = 'RLHip' translation = '0.75 0 -0.433'>
+          <Transform rotation = '0 1 0 0.523'>
+            
+            <Shape USE = 'axis'/>
+            
+            <!--RLUpLeg (first back left leg)-->
+            <Transform DEF = 'RLUpLeg' translation = '0.5 0 0'>
+              <Transform scale = '0.5 0.3 0.3'>
+                <Shape USE = 'Octa'/>
+              </Transform> 
+            </Transform>
+            
+            <!--RLKnee (second back left leg joint)-->
+            <Transform DEF = 'RLKnee' translation = '1 0 0'>
+              <Transform rotation = '0 0 1 -0.785'>
+
+                <Shape USE = 'axis'/>
+
+                <!--RLLowLeg (second back left leg)-->
+                <Transform DEF = 'RLLowLeg' translation = '0.5 0 0'>
+                  <Transform scale = '0.5 0.3 0.3'>
+                    <Shape USE = 'Octa'/>
+                  </Transform>
+                </Transform>
+
+                <!--RLAnkle (third back left leg joint)-->
+                <Transform DEF = 'RLAnkle' translation = '1 0 0'>
+                  <Transform rotation = '0 0 1 -0.785'>
+
+                    <Shape USE = 'axis'/>
+
+                    <!--RLFoot (third back left leg)-->
+                    <Transform DEF = 'RLFoot' translation = '0.5 0 0'>
+                      <Transform scale = '0.5 0.3 0.3'>
+                        <Shape USE = 'Octa'/>
+                      </Transform>
+                    </Transform>
+
+                  </Transform>
+                </Transform><!--end of RLAnkle (third leg joint)-->
+
+              </Transform>
+            </Transform><!--end of RLKnee (second leg joint)-->
+
+          </Transform>
+        </Transform><!--end of RLHip (first leg joint)-->
+
+
+        <!--FLHip and RLHip animation-->
+        <TimeSensor DEF = "LeftHipTimer" cycleInterval = '4' loop = "true" enabled = "false"/>
+          <OrientationInterpolator
+            DEF = "LeftHipInterpolator"
+            key = '0 0.25 0.5 0.75 1'
+
+            keyValue = '0 0 0 0 
+                        0 1 0 0.523
+                        0 0 0 0
+                        0 1 0 -0.523
+                        0 0 0 0'/>
+        <ROUTE
+          fromNode = "LeftHipTimer" 
+          fromField = "fraction_changed" 
+          toNode = "LeftHipInterpolator"  
+          toField = "set_fraction"
+        />
+        <!--FLHip-->
+        <ROUTE 
+          fromNode = "LeftHipInterpolator"  
+          fromField = "value_changed" 
+          toNode = "FLHip"  
+          toField = "set_rotation" 
+        />     
+        <!--RLHip-->
+        <ROUTE 
+          fromNode = "LeftHipInterpolator"  
+          fromField = "value_changed" 
+          toNode = "RLHip"  
+          toField = "set_rotation" 
+        />    
+        <!--TouchSensor-->
+        <ROUTE                                                                  
+          fromNode = "StartStop"                                                 
+          fromField = "isActive"                                               
+          toNode = "LeftHipTimer"                                                
+          toField = "enabled"                                                  
+        />
+
+        <!--FLKnee and RLKnee animation-->
+        <TimeSensor DEF = "LeftKneeTimer" cycleInterval = '4' loop = "true" enabled = "false"/>
+          <OrientationInterpolator
+            DEF = "LeftKneeInterpolator"
+            key = '0 0.25 0.5 0.75 1'
+
+            keyValue = '0 0 0 0
+                        1 0 0 0.5
+                        0 0 0 0
+                        1 0 0 -0.5
+                        0 0 0 0'/>
+        <ROUTE
+          fromNode = "LeftKneeTimer" 
+          fromField = "fraction_changed" 
+          toNode = "LeftKneeInterpolator"  
+          toField = "set_fraction"
+        />
+        <!--FLKnee-->
+        <ROUTE 
+          fromNode = "LeftKneeInterpolator"  
+          fromField = "value_changed" 
+          toNode = "FLKnee"  
+          toField = "set_rotation" 
+        />
+        <!--RLKnee-->
+        <ROUTE 
+          fromNode = "LeftKneeInterpolator"  
+          fromField = "value_changed" 
+          toNode = "RLKnee"  
+          toField = "set_rotation" 
+        />
+        <!--TouchSensor-->
+        <ROUTE                                                                  
+          fromNode = "StartStop"                                                 
+          fromField = "isActive"                                               
+          toNode = "LeftKneeTimer"                                                
+          toField = "enabled"                                                  
+        />
+
+        <!--FLAnkle and RLAnkle animation-->
+        <TimeSensor DEF = "LeftAnkleTimer" cycleInterval = '4' loop = "true" enabled = "false"/>
+          <OrientationInterpolator
+            DEF = "LeftAnkleInterpolator"
+            key = '0 0.25 0.5 0.75 1'
+
+            keyValue = '0 0 0 0
+                        1 0 0 1.047
+                        0 0 0 0
+                        1 0 0 -1.047
+                        0 0 0 0'/>
+        <ROUTE
+          fromNode = "LeftAnkleTimer" 
+          fromField = "fraction_changed" 
+          toNode = "LeftAnkleInterpolator"  
+          toField = "set_fraction"
+        />
+        <!--FLAnkle-->
+        <ROUTE 
+          fromNode = "LeftAnkleInterpolator"  
+          fromField = "value_changed" 
+          toNode = "FLAnkle"  
+          toField = "set_rotation" 
+        />
+        <!--RLAnkle-->
+        <ROUTE 
+          fromNode = "LeftAnkleInterpolator"  
+          fromField = "value_changed" 
+          toNode = "RLAnkle"  
+          toField = "set_rotation" 
+        />
+        <!--TouchSensor-->
+        <ROUTE                                                                  
+          fromNode = "StartStop"                                                 
+          fromField = "isActive"                                               
+          toNode = "LeftAnkleTimer"                                                
+          toField = "enabled"                                                  
+        />
+      </Scene>
+    </X3D>
+  </body>
+</html>
